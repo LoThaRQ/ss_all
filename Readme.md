@@ -1,5 +1,3 @@
-libsodium更新至1.0.18版本  mbedtls更新至2.16.3版本
-
 
 ![Shadowsocks](https://github.com/teddysun/shadowsocks_install/raw/master/shadowsocks.png)
 # Auto install Shadowsocks Server
