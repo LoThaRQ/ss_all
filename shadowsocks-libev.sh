@@ -112,10 +112,11 @@ check_version(){
 
 print_info(){
     clear
+    echo -e ${green}
     echo "#############################################################"
-    echo "      Shadowsocks-libev安装程序（适用CentOS 6 或 7 )           "
+    echo "      Shadowsocks-libev安装程序（适用CentOS 6 或 7 )          "
     echo "#############################################################"
-    echo
+    echo ${plain}
 }
 
 # Check system
