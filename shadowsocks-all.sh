@@ -7,7 +7,7 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}警告本脚本必须以root权限运行!${plain}] " && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}本脚本必须以root权限运行!${plain}] " && exit 1
 
 cur_dir=$( pwd )
 software=(Shadowsocks-Python ShadowsocksR Shadowsocks-Go Shadowsocks-libev)
