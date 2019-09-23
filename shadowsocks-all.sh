@@ -32,16 +32,17 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] This script must be run as root!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] 本脚本必须以root权限运行!" && exit 1
 
 cur_dir=$( pwd )
 software=(Shadowsocks-Python ShadowsocksR Shadowsocks-Go Shadowsocks-libev)
 
-libsodium_file="libsodium-1.0.17"
-libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz"
+libsodium_file="libsodium-stable"
+libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
 
-mbedtls_file="mbedtls-2.16.0"
-mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.0-gpl.tgz"
+mbedtls_file="mbedtls-2.16.3"
+mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.3-gpl.tgz"
+
 
 shadowsocks_python_file="shadowsocks-master"
 shadowsocks_python_url="https://github.com/shadowsocks/shadowsocks/archive/master.zip"
@@ -268,12 +269,12 @@ centosversion(){
 
 autoconf_version(){
     if [ ! "$(command -v autoconf)" ]; then
-        echo -e "[${green}Info${plain}] Starting install package autoconf"
+        echo -e "[${green}Info${plain}] 开始编译安装包"
         if check_sys packageManager yum; then
-            yum install -y autoconf > /dev/null 2>&1 || echo -e "[${red}Error:${plain}] Failed to install autoconf"
+            yum install -y autoconf > /dev/null 2>&1 || echo -e "[${red}Error:${plain}]  安装包编译失败"
         elif check_sys packageManager apt; then
             apt-get -y update > /dev/null 2>&1
-            apt-get -y install autoconf > /dev/null 2>&1 || echo -e "[${red}Error:${plain}] Failed to install autoconf"
+            apt-get -y install autoconf > /dev/null 2>&1 || echo -e "[${red}Error:${plain}] 安装包编译失败"
         fi
     fi
     local autoconf_ver=$(autoconf --version | grep autoconf | grep -oE "[0-9.]+")
@@ -298,7 +299,7 @@ get_ipv6(){
 
 get_libev_ver(){
     libev_ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
-    [ -z ${libev_ver} ] && echo -e "[${red}Error${plain}] Get shadowsocks-libev latest version failed" && exit 1
+    [ -z ${libev_ver} ] && echo -e "[${red}Error${plain}] 获取shadowsocks-libev最新版本失败" && exit 1
 }
 
 get_opsy(){
@@ -335,10 +336,10 @@ download(){
     if [ -f ${1} ]; then
         echo "${filename} [found]"
     else
-        echo "${filename} not found, download now..."
+        echo "${filename} 未找到，现在下载"
         wget --no-check-certificate -c -t3 -T60 -O ${1} ${2}
         if [ $? -ne 0 ]; then
-            echo -e "[${red}Error${plain}] Download ${filename} failed."
+            echo -e "[${red}Error${plain}]  ${filename} 下载失败"
             exit 1
         fi
     fi
@@ -400,11 +401,10 @@ get_char(){
 error_detect_depends(){
     local command=$1
     local depend=`echo "${command}" | awk '{print $4}'`
-    echo -e "[${green}Info${plain}] Starting to install package ${depend}"
+    echo -e "[${green}Info${plain}] 开始安装 ${depend}"
     ${command} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-        echo -e "[${red}Error${plain}] Failed to install ${red}${depend}${plain}"
-        echo "Please visit: https://teddysun.com/486.html and contact."
+        echo -e "[${red}Error${plain}] 安装失败 ${red}${depend}${plain}"
         exit 1
     fi
 }
@@ -420,10 +420,10 @@ config_firewall(){
                 /etc/init.d/iptables save
                 /etc/init.d/iptables restart
             else
-                echo -e "[${green}Info${plain}] port ${green}${shadowsocksport}${plain} already be enabled."
+                echo -e "[${green}Info${plain}] 端口 ${green}${shadowsocksport}${plain} 已经开启."
             fi
         else
-            echo -e "[${yellow}Warning${plain}] iptables looks like not running or not installed, please enable port ${shadowsocksport} manually if necessary."
+            echo -e "[${yellow}Warning${plain}] iptables并未运行或安装, 请手动开启端口 ${shadowsocksport} "
         fi
     elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
@@ -433,7 +433,7 @@ config_firewall(){
             firewall-cmd --permanent --zone=${default_zone} --add-port=${shadowsocksport}/udp
             firewall-cmd --reload
         else
-            echo -e "[${yellow}Warning${plain}] firewalld looks like not running or not installed, please enable port ${shadowsocksport} manually if necessary."
+            echo -e "[${yellow}警告${plain}] 并未运行或安装, 请手动开启端口 ${shadowsocksport}"
         fi
     fi
 }
@@ -547,14 +547,14 @@ fi
 
 install_dependencies(){
     if check_sys packageManager yum; then
-        echo -e "[${green}Info${plain}] Checking the EPEL repository..."
+        echo -e "[${green}Info${plain}] 正在检查EPEL repository..."
         if [ ! -f /etc/yum.repos.d/epel.repo ]; then
             yum install -y epel-release > /dev/null 2>&1
         fi
-        [ ! -f /etc/yum.repos.d/epel.repo ] && echo -e "[${red}Error${plain}] Install EPEL repository failed, please check it." && exit 1
+        [ ! -f /etc/yum.repos.d/epel.repo ] && echo -e "[${red}Error${plain}] EPEL repository安装失败." && exit 1
         [ ! "$(command -v yum-config-manager)" ] && yum install -y yum-utils > /dev/null 2>&1
         [ x"$(yum-config-manager epel | grep -w enabled | awk '{print $3}')" != x"True" ] && yum-config-manager --enable epel > /dev/null 2>&1
-        echo -e "[${green}Info${plain}] Checking the EPEL repository complete..."
+        echo -e "[${green}Info${plain}] EPEL repository检查完成"
 
         yum_depends=(
             unzip gzip openssl openssl-devel gcc python python-devel python-setuptools pcre pcre-devel libtool libevent
@@ -590,41 +590,41 @@ install_check(){
 
 install_select(){
     if ! install_check; then
-        echo -e "[${red}Error${plain}] Your OS is not supported to run it!"
-        echo "Please change to CentOS 6+/Debian 7+/Ubuntu 12+ and try again."
+        echo -e "[${red}错误${plain}] 您的系统不支持本程序!"
+        echo "请使用CentOS 6+/Debian 7+/Ubuntu 12+ 重试"
         exit 1
     fi
 
     clear
     while true
     do
-    echo  "Which Shadowsocks server you'd select:"
+    echo  "请选择您要安装的版本:"
     for ((i=1;i<=${#software[@]};i++ )); do
         hint="${software[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "Please enter a number (Default ${software[0]}):" selected
+    read -p " 请输入一个数字 (Default ${software[0]}):" selected
     [ -z "${selected}" ] && selected="1"
     case "${selected}" in
         1|2|3|4)
         echo
-        echo "You choose = ${software[${selected}-1]}"
+        echo "您的选择 = ${software[${selected}-1]}"
         echo
         break
         ;;
         *)
-        echo -e "[${red}Error${plain}] Please only enter a number [1-4]"
+        echo -e "[${red}错误${plain}] 请输入一个数字 [1-4]"
         ;;
     esac
     done
 }
 
 install_prepare_password(){
-    echo "Please enter password for ${software[${selected}-1]}"
-    read -p "(Default password: teddysun.com):" shadowsockspwd
-    [ -z "${shadowsockspwd}" ] && shadowsockspwd="teddysun.com"
+    echo "请为 ${software[${selected}-1]}设置密码"
+    read -p "(默认密码: 1345678):" shadowsockspwd
+    [ -z "${shadowsockspwd}" ] && shadowsockspwd="12345678"
     echo
-    echo "password = ${shadowsockspwd}"
+    echo "密码 = ${shadowsockspwd}"
     echo
 }
 
@@ -632,41 +632,41 @@ install_prepare_port() {
     while true
     do
     dport=$(shuf -i 9000-19999 -n 1)
-    echo -e "Please enter a port for ${software[${selected}-1]} [1-65535]"
-    read -p "(Default port: ${dport}):" shadowsocksport
+    echo -e "请为 ${software[${selected}-1]} 选择一个端口[1-65535]"
+    read -p "(默认端口: ${dport}):" shadowsocksport
     [ -z "${shadowsocksport}" ] && shadowsocksport=${dport}
     expr ${shadowsocksport} + 1 &>/dev/null
     if [ $? -eq 0 ]; then
         if [ ${shadowsocksport} -ge 1 ] && [ ${shadowsocksport} -le 65535 ] && [ ${shadowsocksport:0:1} != 0 ]; then
             echo
-            echo "port = ${shadowsocksport}"
+            echo "端口 = ${shadowsocksport}"
             echo
             break
         fi
     fi
-    echo -e "[${red}Error${plain}] Please enter a correct number [1-65535]"
+    echo -e "[${red}Error${plain}] 请输入正确的数字 [1-65535]"
     done
 }
 
 install_prepare_cipher(){
     while true
     do
-    echo -e "Please select stream cipher for ${software[${selected}-1]}:"
+    echo -e "请为${software[${selected}-1]}选择加密方式:"
 
     if   [[ "${selected}" == "1" || "${selected}" == "4" ]]; then
         for ((i=1;i<=${#common_ciphers[@]};i++ )); do
             hint="${common_ciphers[$i-1]}"
             echo -e "${green}${i}${plain}) ${hint}"
         done
-        read -p "Which cipher you'd select(Default: ${common_ciphers[0]}):" pick
+        read -p "选择加密方式(默认: ${common_ciphers[0]}):" pick
         [ -z "$pick" ] && pick=1
         expr ${pick} + 1 &>/dev/null
         if [ $? -ne 0 ]; then
-            echo -e "[${red}Error${plain}] Please enter a number"
+            echo -e "[${red}Error${plain}] 请选择一个数字"
             continue
         fi
         if [[ "$pick" -lt 1 || "$pick" -gt ${#common_ciphers[@]} ]]; then
-            echo -e "[${red}Error${plain}] Please enter a number between 1 and ${#common_ciphers[@]}"
+            echo -e "[${red}Error${plain}] 请输入一个 1 到 ${#common_ciphers[@]}的数字"
             continue
         fi
         shadowsockscipher=${common_ciphers[$pick-1]}
@@ -675,15 +675,15 @@ install_prepare_cipher(){
             hint="${r_ciphers[$i-1]}"
             echo -e "${green}${i}${plain}) ${hint}"
         done
-        read -p "Which cipher you'd select(Default: ${r_ciphers[1]}):" pick
+        read -p "选择加密方式(默认: ${r_ciphers[1]}):" pick
         [ -z "$pick" ] && pick=2
         expr ${pick} + 1 &>/dev/null
         if [ $? -ne 0 ]; then
-            echo -e "[${red}Error${plain}] Please enter a number"
+            echo -e "[${red}Error${plain}] 请输入一个数字"
             continue
         fi
         if [[ "$pick" -lt 1 || "$pick" -gt ${#r_ciphers[@]} ]]; then
-            echo -e "[${red}Error${plain}] Please enter a number between 1 and ${#r_ciphers[@]}"
+            echo -e "[${red}Error${plain}] 请输入一个 1 到 ${#r_ciphers[@]}的数字"
             continue
         fi
         shadowsockscipher=${r_ciphers[$pick-1]}
@@ -692,22 +692,22 @@ install_prepare_cipher(){
             hint="${go_ciphers[$i-1]}"
             echo -e "${green}${i}${plain}) ${hint}"
         done
-        read -p "Which cipher you'd select(Default: ${go_ciphers[0]}):" pick
+        read -p "选择加密方式(默认: ${go_ciphers[0]}):" pick
         [ -z "$pick" ] && pick=1
         expr ${pick} + 1 &>/dev/null
         if [ $? -ne 0 ]; then
-            echo -e "[${red}Error${plain}] Please enter a number"
+            echo -e "[${red}Error${plain}] 请输入一个数字"
             continue
         fi
         if [[ "$pick" -lt 1 || "$pick" -gt ${#go_ciphers[@]} ]]; then
-            echo -e "[${red}Error${plain}] Please enter a number between 1 and ${#go_ciphers[@]}"
+            echo -e "[${red}Error${plain}] 输入一个 1 到 ${#go_ciphers[@]}的数字"
             continue
         fi
         shadowsockscipher=${go_ciphers[$pick-1]}
     fi
 
     echo
-    echo "cipher = ${shadowsockscipher}"
+    echo "加密方式 = ${shadowsockscipher}"
     echo
     break
     done
@@ -716,20 +716,20 @@ install_prepare_cipher(){
 install_prepare_protocol(){
     while true
     do
-    echo -e "Please select protocol for ${software[${selected}-1]}:"
+    echo -e "请为 ${software[${selected}-1]}选择网络传输协议:"
     for ((i=1;i<=${#protocols[@]};i++ )); do
         hint="${protocols[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "Which protocol you'd select(Default: ${protocols[0]}):" protocol
+    read -p "请选择网络传输协议(默认: ${protocols[0]}):" protocol
     [ -z "$protocol" ] && protocol=1
     expr ${protocol} + 1 &>/dev/null
     if [ $? -ne 0 ]; then
-        echo -e "[${red}Error${plain}] Please enter a number"
+        echo -e "[${red}Error${plain}] 请输入一个数字"
         continue
     fi
     if [[ "$protocol" -lt 1 || "$protocol" -gt ${#protocols[@]} ]]; then
-        echo -e "[${red}Error${plain}] Please enter a number between 1 and ${#protocols[@]}"
+        echo -e "[${red}Error${plain}] 输入一个 1 到 ${#protocols[@]}的数字"
         continue
     fi
     shadowsockprotocol=${protocols[$protocol-1]}
@@ -743,20 +743,20 @@ install_prepare_protocol(){
 install_prepare_obfs(){
     while true
     do
-    echo -e "Please select obfs for ${software[${selected}-1]}:"
+    echo -e "请为 ${software[${selected}-1]}选择obfs方式:"
     for ((i=1;i<=${#obfs[@]};i++ )); do
         hint="${obfs[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "Which obfs you'd select(Default: ${obfs[0]}):" r_obfs
+    read -p "选择obfs方式t(默认: ${obfs[0]}):" r_obfs
     [ -z "$r_obfs" ] && r_obfs=1
     expr ${r_obfs} + 1 &>/dev/null
     if [ $? -ne 0 ]; then
-        echo -e "[${red}Error${plain}] Please enter a number"
+        echo -e "[${red}Error${plain}] 请输入一个数字"
         continue
     fi
     if [[ "$r_obfs" -lt 1 || "$r_obfs" -gt ${#obfs[@]} ]]; then
-        echo -e "[${red}Error${plain}] Please enter a number between 1 and ${#obfs[@]}"
+        echo -e "[${red}Error${plain}] 输入一个 1 到 ${#obfs[@]}的数字"
         continue
     fi
     shadowsockobfs=${obfs[$r_obfs-1]}
@@ -771,7 +771,7 @@ install_prepare_libev_obfs(){
     if autoconf_version || centosversion 6; then
         while true
         do
-        echo -e "Do you want install simple-obfs for ${software[${selected}-1]}? [y/n]"
+        echo -e "是否需要为${software[${selected}-1]}simple-obfs? [y/n]"
         read -p "(default: n):" libev_obfs
         [ -z "$libev_obfs" ] && libev_obfs=n
         case "${libev_obfs}" in
@@ -782,7 +782,7 @@ install_prepare_libev_obfs(){
             break
             ;;
             *)
-            echo -e "[${red}Error${plain}] Please only enter [y/n]"
+            echo -e "[${red}Error${plain}] 仅能输入 [y/n]"
             ;;
         esac
         done
@@ -790,20 +790,20 @@ install_prepare_libev_obfs(){
         if [ "${libev_obfs}" == "y" ] || [ "${libev_obfs}" == "Y" ]; then
             while true
             do
-            echo -e "Please select obfs for simple-obfs:"
+            echo -e "请为obfs 选择 simple-obfs:"
             for ((i=1;i<=${#obfs_libev[@]};i++ )); do
                 hint="${obfs_libev[$i-1]}"
                 echo -e "${green}${i}${plain}) ${hint}"
             done
-            read -p "Which obfs you'd select(Default: ${obfs_libev[0]}):" r_libev_obfs
+            read -p "选择obfs方式(默认: ${obfs_libev[0]}):" r_libev_obfs
             [ -z "$r_libev_obfs" ] && r_libev_obfs=1
             expr ${r_libev_obfs} + 1 &>/dev/null
             if [ $? -ne 0 ]; then
-                echo -e "[${red}Error${plain}] Please enter a number"
+                echo -e "[${red}错误${plain}] 请输入一个数字"
                 continue
             fi
             if [[ "$r_libev_obfs" -lt 1 || "$r_libev_obfs" -gt ${#obfs_libev[@]} ]]; then
-                echo -e "[${red}Error${plain}] Please enter a number between 1 and ${#obfs_libev[@]}"
+                echo -e "[${red}错误${plain}] 输入一个 1 到 ${#obfs_libev[@]}的数字"
                 continue
             fi
             shadowsocklibev_obfs=${obfs_libev[$r_libev_obfs-1]}
@@ -814,7 +814,7 @@ install_prepare_libev_obfs(){
             done
         fi
     else
-        echo -e "[${green}Info${plain}] autoconf version is less than 2.67, simple-obfs for ${software[${selected}-1]} installation has been skipped"
+        echo -e "[${green}Info${plain}] autoconf 版本低于 2.67, simple-obfs 在 ${software[${selected}-1]} 下的安装已跳过"
     fi
 }
 
@@ -836,7 +836,7 @@ install_prepare(){
     fi
 
     echo
-    echo "Press any key to start...or Press Ctrl+C to cancel"
+    echo "按下任意键开始或按下 Ctrl+C 取消"
     char=`get_char`
 
 }
@@ -854,7 +854,7 @@ install_libsodium(){
             exit 1
         fi
     else
-        echo -e "[${green}Info${plain}] ${libsodium_file} already installed."
+        echo -e "[${green}Info${plain}] ${libsodium_file} 安装完成"
     fi
 }
 
@@ -867,12 +867,12 @@ install_mbedtls(){
         make SHARED=1 CFLAGS=-fPIC
         make DESTDIR=/usr install
         if [ $? -ne 0 ]; then
-            echo -e "[${red}Error${plain}] ${mbedtls_file} install failed."
+            echo -e "[${red}Error${plain}] ${mbedtls_file} 安装失败"
             install_cleanup
             exit 1
         fi
     else
-        echo -e "[${green}Info${plain}] ${mbedtls_file} already installed."
+        echo -e "[${green}Info${plain}] ${mbedtls_file} 安装完成"
     fi
 }
 
@@ -880,7 +880,7 @@ install_shadowsocks_python(){
     cd ${cur_dir}
     unzip -q ${shadowsocks_python_file}.zip
     if [ $? -ne 0 ];then
-        echo -e "[${red}Error${plain}] unzip ${shadowsocks_python_file}.zip failed, please check unzip command."
+        echo -e "[${red}Error${plain}] unzip ${shadowsocks_python_file}.zip 失败, 请检查 unzip 命令"
         install_cleanup
         exit 1
     fi
@@ -899,8 +899,7 @@ install_shadowsocks_python(){
         fi
     else
         echo
-        echo -e "[${red}Error${plain}] ${software[0]} install failed."
-        echo "Please visit: https://teddysun.com/486.html and contact."
+        echo -e "[${red}错误${plain}] ${software[0]} 安装失败"
         install_cleanup
         exit 1
     fi
@@ -921,8 +920,7 @@ install_shadowsocks_r(){
         fi
     else
         echo
-        echo -e "[${red}Error${plain}] ${software[1]} install failed."
-        echo "Please visit; https://teddysun.com/486.html and contact."
+        echo -e "[${red}错误${plain}] ${software[1]} 安装失败"
         install_cleanup
         exit 1
     fi
@@ -933,7 +931,7 @@ install_shadowsocks_go(){
     if is_64bit; then
         gzip -d ${shadowsocks_go_file_64}.gz
         if [ $? -ne 0 ];then
-            echo -e "[${red}Error${plain}] Decompress ${shadowsocks_go_file_64}.gz failed."
+            echo -e "[${red}Error${plain}] 解压缩 ${shadowsocks_go_file_64}.gz 失败"
             install_cleanup
             exit 1
         fi
@@ -941,7 +939,7 @@ install_shadowsocks_go(){
     else
         gzip -d ${shadowsocks_go_file_32}.gz
         if [ $? -ne 0 ];then
-            echo -e "[${red}Error${plain}] Decompress ${shadowsocks_go_file_32}.gz failed."
+            echo -e "[${red}错误${plain}] 解压缩 ${shadowsocks_go_file_32}.gz 失败"
             install_cleanup
             exit 1
         fi
@@ -961,8 +959,7 @@ install_shadowsocks_go(){
         fi
     else
         echo
-        echo -e "[${red}Error${plain}] ${software[2]} install failed."
-        echo "Please visit: https://teddysun.com/486.html and contact."
+        echo -e "[${red}错误${plain}] ${software[2]} 安装失败"
         install_cleanup
         exit 1
     fi
@@ -984,8 +981,7 @@ install_shadowsocks_libev(){
         fi
     else
         echo
-        echo -e "[${red}Error${plain}] ${software[3]} install failed."
-        echo "Please visit: https://teddysun.com/486.html and contact."
+        echo -e "[${red}错误${plain}] ${software[3]} 安装失败"
         install_cleanup
         exit 1
     fi
@@ -999,8 +995,8 @@ install_shadowsocks_libev_obfs(){
         git submodule update --init --recursive
         if centosversion 6; then
             if [ ! "$(command -v autoconf268)" ]; then
-                echo -e "[${green}Info${plain}] Starting install autoconf268..."
-                yum install -y autoconf268 > /dev/null 2>&1 || echo -e "[${red}Error:${plain}] Failed to install autoconf268."
+                echo -e "[${green}Info${plain}] 开始安装 autoconf268..."
+                yum install -y autoconf268 > /dev/null 2>&1 || echo -e "[${red}错误:${plain}]  autoconf268安装失败"
             fi
             # replace command autoreconf to autoreconf268
             sed -i 's/autoreconf/autoreconf268/' autogen.sh
@@ -1013,8 +1009,7 @@ install_shadowsocks_libev_obfs(){
         make
         make install
         if [ ! "$(command -v obfs-server)" ]; then
-            echo -e "[${red}Error${plain}] simple-obfs for ${software[${selected}-1]} install failed."
-            echo "Please visit: https://teddysun.com/486.html and contact."
+            echo -e "[${red}错误${plain}] simple-obfs  ${software[${selected}-1]} 安装失败"
             install_cleanup
             exit 1
         fi
@@ -1026,35 +1021,35 @@ install_completed_python(){
     clear
     ${shadowsocks_python_init} start
     echo
-    echo -e "Congratulations, ${green}${software[0]}${plain} server install completed!"
-    echo -e "Your Server IP        : ${red} $(get_ip) ${plain}"
-    echo -e "Your Server Port      : ${red} ${shadowsocksport} ${plain}"
-    echo -e "Your Password         : ${red} ${shadowsockspwd} ${plain}"
-    echo -e "Your Encryption Method: ${red} ${shadowsockscipher} ${plain}"
+    echo "恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  "Your Server IP        : $(get_ip) $"
+    echo  "Your Server Port      : ${shadowsocksport} "
+    echo  "Your Password         : ${shadowsockspwd} "
+    echo  "Your Encryption Method: ${shadowsockscipher}"
 }
 
 install_completed_r(){
     clear
     ${shadowsocks_r_init} start
     echo
-    echo -e "Congratulations, ${green}${software[1]}${plain} server install completed!"
-    echo -e "Your Server IP        : ${red} $(get_ip) ${plain}"
-    echo -e "Your Server Port      : ${red} ${shadowsocksport} ${plain}"
-    echo -e "Your Password         : ${red} ${shadowsockspwd} ${plain}"
-    echo -e "Your Protocol         : ${red} ${shadowsockprotocol} ${plain}"
-    echo -e "Your obfs             : ${red} ${shadowsockobfs} ${plain}"
-    echo -e "Your Encryption Method: ${red} ${shadowsockscipher} ${plain}"
+    echo  "恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  "Your Server IP        :  $(get_ip) "
+    echo  "Your Server Port      :  ${shadowsocksport} "
+    echo  "Your Password         :  ${shadowsockspwd} "
+    echo  "Your Protocol         :  ${shadowsockprotocol} "
+    echo  "Your obfs             :  ${shadowsockobfs} "
+    echo  "Your Encryption Method:  ${shadowsockscipher} "
 }
 
 install_completed_go(){
     clear
     ${shadowsocks_go_init} start
     echo
-    echo -e "Congratulations, ${green}${software[2]}${plain} server install completed!"
-    echo -e "Your Server IP        : ${red} $(get_ip) ${plain}"
-    echo -e "Your Server Port      : ${red} ${shadowsocksport} ${plain}"
-    echo -e "Your Password         : ${red} ${shadowsockspwd} ${plain}"
-    echo -e "Your Encryption Method: ${red} ${shadowsockscipher} ${plain}"
+    echo  "恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!"
+    echo  "Your Server IP        :  $(get_ip) "
+    echo  "Your Server Port      :  ${shadowsocksport} "
+    echo  "Your Password         :  ${shadowsockspwd} "
+    echo  "Your Encryption Method:  ${shadowsockscipher} "
 }
 
 install_completed_libev(){
@@ -1062,68 +1057,16 @@ install_completed_libev(){
     ldconfig
     ${shadowsocks_libev_init} start
     echo
-    echo -e "Congratulations, ${green}${software[3]}${plain} server install completed!"
-    echo -e "Your Server IP        : ${red} $(get_ip) ${plain}"
-    echo -e "Your Server Port      : ${red} ${shadowsocksport} ${plain}"
-    echo -e "Your Password         : ${red} ${shadowsockspwd} ${plain}"
+    echo  "恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  "Your Server IP        :  $(get_ip) "
+    echo  "Your Server Port      :  ${shadowsocksport} "
+    echo  "Your Password         :  ${shadowsockspwd} "
     if [ "$(command -v obfs-server)" ]; then
-    echo -e "Your obfs             : ${red} ${shadowsocklibev_obfs} ${plain}"
+    echo  " obfs                 :  ${shadowsocklibev_obfs} "
     fi
-    echo -e "Your Encryption Method: ${red} ${shadowsockscipher} ${plain}"
+    echo  "您的加密方式           :  ${shadowsockscipher} "
 }
 
-qr_generate_python(){
-    if [ "$(command -v qrencode)" ]; then
-        local tmp=$(echo -n "${shadowsockscipher}:${shadowsockspwd}@$(get_ip):${shadowsocksport}" | base64 -w0)
-        local qr_code="ss://${tmp}"
-        echo
-        echo "Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)"
-        echo -e "${green} ${qr_code} ${plain}"
-        echo -n "${qr_code}" | qrencode -s8 -o ${cur_dir}/shadowsocks_python_qr.png
-        echo "Your QR Code has been saved as a PNG file path:"
-        echo -e "${green} ${cur_dir}/shadowsocks_python_qr.png ${plain}"
-    fi
-}
-
-qr_generate_r(){
-    if [ "$(command -v qrencode)" ]; then
-        local tmp1=$(echo -n "${shadowsockspwd}" | base64 -w0 | sed 's/=//g;s/\//_/g;s/+/-/g')
-        local tmp2=$(echo -n "$(get_ip):${shadowsocksport}:${shadowsockprotocol}:${shadowsockscipher}:${shadowsockobfs}:${tmp1}/?obfsparam=" | base64 -w0)
-        local qr_code="ssr://${tmp2}"
-        echo
-        echo "Your QR Code: (For ShadowsocksR Windows, Android clients only)"
-        echo -e "${green} ${qr_code} ${plain}"
-        echo -n "${qr_code}" | qrencode -s8 -o ${cur_dir}/shadowsocks_r_qr.png
-        echo "Your QR Code has been saved as a PNG file path:"
-        echo -e "${green} ${cur_dir}/shadowsocks_r_qr.png ${plain}"
-    fi
-}
-
-qr_generate_go(){
-    if [ "$(command -v qrencode)" ]; then
-        local tmp=$(echo -n "${shadowsockscipher}:${shadowsockspwd}@$(get_ip):${shadowsocksport}" | base64 -w0)
-        local qr_code="ss://${tmp}"
-        echo
-        echo "Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)"
-        echo -e "${green} ${qr_code} ${plain}"
-        echo -n "${qr_code}" | qrencode -s8 -o ${cur_dir}/shadowsocks_go_qr.png
-        echo "Your QR Code has been saved as a PNG file path:"
-        echo -e "${green} ${cur_dir}/shadowsocks_go_qr.png ${plain}"
-    fi
-}
-
-qr_generate_libev(){
-    if [ "$(command -v qrencode)" ]; then
-        local tmp=$(echo -n "${shadowsockscipher}:${shadowsockspwd}@$(get_ip):${shadowsocksport}" | base64 -w0)
-        local qr_code="ss://${tmp}"
-        echo
-        echo "Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)"
-        echo -e "${green} ${qr_code} ${plain}"
-        echo -n "${qr_code}" | qrencode -s8 -o ${cur_dir}/shadowsocks_libev_qr.png
-        echo "Your QR Code has been saved as a PNG file path:"
-        echo -e "${green} ${cur_dir}/shadowsocks_libev_qr.png ${plain}"
-    fi
-}
 
 install_main(){
     install_libsodium
@@ -1153,9 +1096,7 @@ install_main(){
     fi
 
     echo
-    echo "Welcome to visit: https://teddysun.com/486.html"
-    echo "Enjoy it!"
-    echo
+
 }
 
 install_cleanup(){
@@ -1184,7 +1125,7 @@ install_shadowsocks(){
 }
 
 uninstall_shadowsocks_python(){
-    printf "Are you sure uninstall ${red}${software[0]}${plain}? [y/n]\n"
+    printf "是否确定要卸载 ${red}${software[0]}${plain}? [y/n]\n"
     read -p "(default: n):" answer
     [ -z ${answer} ] && answer="n"
     if [ "${answer}" == "y" ] || [ "${answer}" == "Y" ]; then
@@ -1206,16 +1147,16 @@ uninstall_shadowsocks_python(){
             cat /usr/local/shadowsocks_python.log | xargs rm -rf
             rm -f /usr/local/shadowsocks_python.log
         fi
-        echo -e "[${green}Info${plain}] ${software[0]} uninstall success"
+        echo -e "[${green}Info${plain}] ${software[0]} 卸载成功"
     else
         echo
-        echo -e "[${green}Info${plain}] ${software[0]} uninstall cancelled, nothing to do..."
+        echo -e "[${green}Info${plain}] ${software[0]} 卸载已取消"
         echo
     fi
 }
 
 uninstall_shadowsocks_r(){
-    printf "Are you sure uninstall ${red}${software[1]}${plain}? [y/n]\n"
+    printf "是否确定要卸载 ${red}${software[1]}${plain}? [y/n]\n"
     read -p "(default: n):" answer
     [ -z ${answer} ] && answer="n"
     if [ "${answer}" == "y" ] || [ "${answer}" == "Y" ]; then
@@ -1233,16 +1174,16 @@ uninstall_shadowsocks_r(){
         rm -f ${shadowsocks_r_init}
         rm -f /var/log/shadowsocks.log
         rm -fr /usr/local/shadowsocks
-        echo -e "[${green}Info${plain}] ${software[1]} uninstall success"
+        echo -e "[${green}Info${plain}] ${software[1]} 卸载成功"
     else
         echo
-        echo -e "[${green}Info${plain}] ${software[1]} uninstall cancelled, nothing to do..."
+        echo -e "[${green}Info${plain}] ${software[1]} 卸载已取消"
         echo
     fi
 }
 
 uninstall_shadowsocks_go(){
-    printf "Are you sure uninstall ${red}${software[2]}${plain}? [y/n]\n"
+    printf "是否确定要卸载 ${red}${software[2]}${plain}? [y/n]\n"
     read -p "(default: n):" answer
     [ -z ${answer} ] && answer="n"
     if [ "${answer}" == "y" ] || [ "${answer}" == "Y" ]; then
@@ -1259,16 +1200,16 @@ uninstall_shadowsocks_go(){
         rm -fr $(dirname ${shadowsocks_go_config})
         rm -f ${shadowsocks_go_init}
         rm -f /usr/bin/shadowsocks-server
-        echo -e "[${green}Info${plain}] ${software[2]} uninstall success"
+        echo -e "[${green}Info${plain}] ${software[2]} 卸载成功"
     else
         echo
-        echo -e "[${green}Info${plain}] ${software[2]} uninstall cancelled, nothing to do..."
+        echo -e "[${green}Info${plain}] ${software[2]} 卸载已取消"
         echo
     fi
 }
 
 uninstall_shadowsocks_libev(){
-    printf "Are you sure uninstall ${red}${software[3]}${plain}? [y/n]\n"
+    printf "是否确定要卸载 ${red}${software[3]}${plain}? [y/n]\n"
     read -p "(default: n):" answer
     [ -z ${answer} ] && answer="n"
     if [ "${answer}" == "y" ] || [ "${answer}" == "Y" ]; then
@@ -1304,10 +1245,10 @@ uninstall_shadowsocks_libev(){
         rm -f /usr/local/share/man/man8/shadowsocks-libev.8
         rm -fr /usr/local/share/doc/shadowsocks-libev
         rm -f ${shadowsocks_libev_init}
-        echo -e "[${green}Info${plain}] ${software[3]} uninstall success"
+        echo -e "[${green}Info${plain}] ${software[3]} 卸载成功"
     else
         echo
-        echo -e "[${green}Info${plain}] ${software[3]} uninstall cancelled, nothing to do..."
+        echo -e "[${green}Info${plain}] ${software[3]} 卸载已取消"
         echo
     fi
 }
@@ -1315,21 +1256,21 @@ uninstall_shadowsocks_libev(){
 uninstall_shadowsocks(){
     while true
     do
-    echo  "Which Shadowsocks server you want to uninstall?"
+    echo  "您要卸载哪个版本?"
     for ((i=1;i<=${#software[@]};i++ )); do
         hint="${software[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "Please enter a number [1-4]:" un_select
+    read -p "请输入一个数字 [1-4]:" un_select
     case "${un_select}" in
         1|2|3|4)
         echo
-        echo "You choose = ${software[${un_select}-1]}"
+        echo "您的选择 = ${software[${un_select}-1]}"
         echo
         break
         ;;
         *)
-        echo -e "[${red}Error${plain}] Please only enter a number [1-4]"
+        echo -e "[${red}错误${plain}] 仅能输入一个数字 [1-4]"
         ;;
     esac
     done
@@ -1338,7 +1279,7 @@ uninstall_shadowsocks(){
         if [ -f ${shadowsocks_python_init} ]; then
             uninstall_shadowsocks_python
         else
-            echo -e "[${red}Error${plain}] ${software[${un_select}-1]} not installed, please check it and try again."
+            echo -e "[${red}错误${plain}] 您没有安装${software[${un_select}-1]} ，卸载毛线"
             echo
             exit 1
         fi
@@ -1346,7 +1287,7 @@ uninstall_shadowsocks(){
         if [ -f ${shadowsocks_r_init} ]; then
             uninstall_shadowsocks_r
         else
-            echo -e "[${red}Error${plain}] ${software[${un_select}-1]} not installed, please check it and try again."
+            echo -e "[${red}错误${plain}] 您没有安装${software[${un_select}-1]} 卸载毛线"
             echo
             exit 1
         fi
@@ -1354,7 +1295,7 @@ uninstall_shadowsocks(){
         if [ -f ${shadowsocks_go_init} ]; then
             uninstall_shadowsocks_go
         else
-            echo -e "[${red}Error${plain}] ${software[${un_select}-1]} not installed, please check it and try again."
+            echo -e "[${red}错误${plain}] 您没有安装${software[${un_select}-1]} 卸载毛线"
             echo
             exit 1
         fi
@@ -1362,7 +1303,7 @@ uninstall_shadowsocks(){
         if [ -f ${shadowsocks_libev_init} ]; then
             uninstall_shadowsocks_libev
         else
-            echo -e "[${red}Error${plain}] ${software[${un_select}-1]} not installed, please check it and try again."
+            echo -e "[${red}错误${plain}] 您没有安装${software[${un_select}-1]} 卸载毛线"
             echo
             exit 1
         fi
@@ -1377,7 +1318,7 @@ case "${action}" in
         ${action}_shadowsocks
         ;;
     *)
-        echo "Arguments error! [${action}]"
-        echo "Usage: $(basename $0) [install|uninstall]"
+        echo "参数错误! [${action}]"
+        echo "使用方法: $(basename $0) [install|uninstall]"
         ;;
 esac
