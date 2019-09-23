@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-#===================================================================#
-#             Shadowsocks-libev安装程序（适用CentOS6或7)              #
-#===================================================================#
 
 # Current folder
 cur_dir=`pwd`
@@ -112,11 +109,11 @@ check_version(){
 
 print_info(){
     clear
-    echo -e ${green}
-    echo "#############################################################"
-    echo "      Shadowsocks-libev安装程序（适用CentOS 6 或 7 )          "
-    echo "#############################################################"
-    echo ${plain}
+    echo 
+    echo -e " ${green}#############################################################${plain}"
+    echo -e " ${green}      Shadowsocks-libev安装程序（适用CentOS 6 或 7 )          ${plain}"
+    echo -e " ${green}#############################################################${plain}"
+    echo 
 }
 
 # Check system
