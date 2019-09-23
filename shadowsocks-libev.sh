@@ -293,7 +293,7 @@ pre_install(){
         hint="${ciphers[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "在以下选项中选择加密方式(默认为: ${ciphers[0]}):" pick
+    read -p "在以上选项中选择加密方式(默认为: ${ciphers[0]}):" pick
     [ -z "$pick" ] && pick=1
     expr ${pick} + 1 &>/dev/null
     if [ $? -ne 0 ]; then
@@ -487,10 +487,10 @@ install_shadowsocks(){
     clear
     echo
     echo -e "恭喜, Shadowsocks-libev已安装完成，请按以下信息设置您的客户端"
-    echo -e "Your Server IP        : \033[41;37m $(get_ip) \033[0m"
-    echo -e "Your Server Port      : \033[41;37m ${shadowsocksport} \033[0m"
-    echo -e "Your Password         : \033[41;37m ${shadowsockspwd} \033[0m"
-    echo -e "Your Encryption Method: \033[41;37m ${shadowsockscipher} \033[0m"
+    echo -e "Your Server IP        : \033[41;37m $(get_ip)  "
+    echo -e "Your Server Port      : \033[41;37m ${shadowsocksport}  "
+    echo -e "Your Password         : \033[41;37m ${shadowsockspwd}  "
+    echo -e "Your Encryption Method: \033[41;37m ${shadowsockscipher}  "
     echo
 }
 
@@ -555,7 +555,7 @@ case "$action" in
         ${action}_shadowsocks_libev
         ;;
     *)
-        echo "Arguments error! [${action}]"
-        echo "Usage: `basename $0` [install|uninstall]"
+        echo "参数错误! [${action}]"
+        echo "使用方法: `basename $0` [install|uninstall]"
         ;;
 esac
