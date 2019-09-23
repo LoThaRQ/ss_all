@@ -486,11 +486,11 @@ install_shadowsocks(){
 
     clear
     echo
-    echo  "恭喜, Shadowsocks-libev已安装完成，请按以下信息设置您的客户端"
-    echo  "Your Server IP        :  $(get_ip)"
-    echo  "Your Server Port      :  ${shadowsocksport}"
-    echo  "Your Password         :  ${shadowsockspwd}"
-    echo  "Your Encryption Method:  ${shadowsockscipher}"
+    echo  -e "${green}恭喜, Shadowsocks-libev已安装完成，请按以下信息设置您的客户端${plain}"
+    echo  -e "${green}Your Server IP        :  $(get_ip)${plain}"
+    echo  -e "${green}Your Server Port      :  ${shadowsocksport}${plain}"
+    echo  -e "${green}Your Password         :  ${shadowsockspwd}${plain}"
+    echo  -e "${green}Your Encryption Method:  ${shadowsockscipher}${plain}"
     echo
 }
 
