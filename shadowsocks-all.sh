@@ -1008,7 +1008,7 @@ install_completed_python(){
     echo  -e "${green}Your Server Port      : ${shadowsocksport} "
     echo  -e "${green}Your Password         : ${shadowsockspwd} "
     echo  -e "${green}Your Encryption Method: ${shadowsockscipher}"
-    echo
+    echo  " "
 }
 
 install_completed_r(){
