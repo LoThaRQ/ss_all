@@ -2,37 +2,19 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #
-# Auto install Shadowsocks Server (all version)
 #
-# Copyright (C) 2016-2019 Teddysun <i@teddysun.com>
+#===================================================================#
+#       欢迎使用Shadowsocks安装程序（秋水逸冰四合一汉化安装指引)        #
+#===================================================================#
 #
-# System Required:  CentOS 6+, Debian7+, Ubuntu12+
 #
-# Reference URL:
-# https://github.com/shadowsocks/shadowsocks
-# https://github.com/shadowsocks/shadowsocks-go
-# https://github.com/shadowsocks/shadowsocks-libev
-# https://github.com/shadowsocks/shadowsocks-windows
-# https://github.com/shadowsocksr-rm/shadowsocksr
-# https://github.com/shadowsocksrr/shadowsocksr
-# https://github.com/shadowsocksrr/shadowsocksr-csharp
-#
-# Thanks:
-# @clowwindy  <https://twitter.com/clowwindy>
-# @breakwa11  <https://twitter.com/breakwa11>
-# @cyfdecyf   <https://twitter.com/cyfdecyf>
-# @madeye     <https://github.com/madeye>
-# @linusyang  <https://github.com/linusyang>
-# @Akkariiin  <https://github.com/Akkariiin>
-# 
-# Intro:  https://teddysun.com/486.html
 
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] 本脚本必须以root权限运行!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}警告${plain}] 本脚本必须以root权限运行!" && exit 1
 
 cur_dir=$( pwd )
 software=(Shadowsocks-Python ShadowsocksR Shadowsocks-Go Shadowsocks-libev)
@@ -1021,35 +1003,35 @@ install_completed_python(){
     clear
     ${shadowsocks_python_init} start
     echo
-    echo  -e "[${green}Info${plain}]恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  -e "[${green}Info${plain}]Your Server IP        : $(get_ip) $"
-    echo  -e "[${green}Info${plain}]Your Server Port      : ${shadowsocksport} "
-    echo  -e "[${green}Info${plain}]Your Password         : ${shadowsockspwd} "
-    echo  -e "[${green}Info${plain}]Your Encryption Method: ${shadowsockscipher}"
+    echo  -e "${green}恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!${plain}"
+    echo  -e "${green}Your Server IP        : $(get_ip) "
+    echo  -e "${green}Your Server Port      : ${shadowsocksport} "
+    echo  -e "${green}Your Password         : ${shadowsockspwd} "
+    echo  -e "${green}Your Encryption Method: ${shadowsockscipher}"
 }
 
 install_completed_r(){
     clear
     ${shadowsocks_r_init} start
     echo
-    echo  -e "[${green}Info${plain}]恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  -e "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
-    echo  -e "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
-    echo  -e "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
-    echo  -e "[${green}Info${plain}]Your Protocol         :  ${shadowsockprotocol} "
-    echo  -e "[${green}Info${plain}]Your obfs             :  ${shadowsockobfs} "
-    echo  -e "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
+    echo  -e "${green}恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!${plain}"
+    echo  -e "${green}Your Server IP        :  $(get_ip) ${plain}"
+    echo  -e "${green}Your Server Port      :  ${shadowsocksport} ${plain}"
+    echo  -e "${green}Your Password         :  ${shadowsockspwd} ${plain}"
+    echo  -e "${green}Your Protocol         :  ${shadowsockprotocol} ${plain}"
+    echo  -e "${green}Your obfs             :  ${shadowsockobfs} "
+    echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
 }
 
 install_completed_go(){
     clear
     ${shadowsocks_go_init} start
     echo
-    echo  -e "[${green}Info${plain}]恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!"
-    echo  -e "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
-    echo  -e "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
-    echo  -e "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
-    echo  -e "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
+    echo  -e "${green}恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!${plain}"
+    echo  -e "${green}Your Server IP        :  $(get_ip) ${plain}"
+    echo  -e "${green}Your Server Port      :  ${shadowsocksport} ${plain}"
+    echo  -e "${green}Your Password         :  ${shadowsockspwd} ${plain}"
+    echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
 }
 
 install_completed_libev(){
@@ -1057,14 +1039,14 @@ install_completed_libev(){
     ldconfig
     ${shadowsocks_libev_init} start
     echo
-    echo  -e "[${green}Info${plain}]恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  -e "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
-    echo  -e "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
-    echo  -e "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
+    echo  -e "${green}恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!${plain}"
+    echo  -e "${green}Your Server IP        :  $(get_ip) ${plain}"
+    echo  -e "${green}Your Server Port      :  ${shadowsocksport} ${plain}"
+    echo  -e "${green}Your Password         :  ${shadowsockspwd} ${plain}"
     if [ "$(command -v obfs-server)" ]; then
-    echo  -e " [${green}Info${plain}]obfs                 :  ${shadowsocklibev_obfs} "
+    echo  -e " ${green}obfs                 :  ${shadowsocklibev_obfs} ${plain}"
     fi
-    echo  -e "[${green}Info${plain}]您的加密方式           :  ${shadowsockscipher} "
+    echo  -e "${green}您的加密方式           :  ${shadowsockscipher} ${plain}"
 }
 
 
