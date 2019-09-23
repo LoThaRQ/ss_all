@@ -1021,35 +1021,35 @@ install_completed_python(){
     clear
     ${shadowsocks_python_init} start
     echo
-    echo "[${green}Info${plain}]恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  "[${green}Info${plain}]Your Server IP        : $(get_ip) $"
-    echo  "[${green}Info${plain}]Your Server Port      : ${shadowsocksport} "
-    echo  "[${green}Info${plain}]Your Password         : ${shadowsockspwd} "
-    echo  "[${green}Info${plain}]Your Encryption Method: ${shadowsockscipher}"
+    echo  -e "[${green}Info${plain}]恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  -e "[${green}Info${plain}]Your Server IP        : $(get_ip) $"
+    echo  -e "[${green}Info${plain}]Your Server Port      : ${shadowsocksport} "
+    echo  -e "[${green}Info${plain}]Your Password         : ${shadowsockspwd} "
+    echo  -e "[${green}Info${plain}]Your Encryption Method: ${shadowsockscipher}"
 }
 
 install_completed_r(){
     clear
     ${shadowsocks_r_init} start
     echo
-    echo  "[${green}Info${plain}]恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
-    echo  "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
-    echo  "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
-    echo  "[${green}Info${plain}]Your Protocol         :  ${shadowsockprotocol} "
-    echo  "[${green}Info${plain}]Your obfs             :  ${shadowsockobfs} "
-    echo  "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
+    echo  -e "[${green}Info${plain}]恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  -e "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
+    echo  -e "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
+    echo  -e "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
+    echo  -e "[${green}Info${plain}]Your Protocol         :  ${shadowsockprotocol} "
+    echo  -e "[${green}Info${plain}]Your obfs             :  ${shadowsockobfs} "
+    echo  -e "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
 }
 
 install_completed_go(){
     clear
     ${shadowsocks_go_init} start
     echo
-    echo  "[${green}Info${plain}]恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!"
-    echo  "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
-    echo  "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
-    echo  "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
-    echo  "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
+    echo  -e "[${green}Info${plain}]恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!"
+    echo  -e "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
+    echo  -e "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
+    echo  -e "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
+    echo  -e "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
 }
 
 install_completed_libev(){
@@ -1057,14 +1057,14 @@ install_completed_libev(){
     ldconfig
     ${shadowsocks_libev_init} start
     echo
-    echo  "[${green}Info${plain}]恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
-    echo  "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
-    echo  "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
+    echo  -e "[${green}Info${plain}]恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  -e "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
+    echo  -e "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
+    echo  -e "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
     if [ "$(command -v obfs-server)" ]; then
-    echo  " [${green}Info${plain}]obfs                 :  ${shadowsocklibev_obfs} "
+    echo  -e " [${green}Info${plain}]obfs                 :  ${shadowsocklibev_obfs} "
     fi
-    echo  "[${green}Info${plain}]您的加密方式           :  ${shadowsockscipher} "
+    echo  -e "[${green}Info${plain}]您的加密方式           :  ${shadowsockscipher} "
 }
 
 
@@ -1078,21 +1078,17 @@ install_main(){
     if   [ "${selected}" == "1" ]; then
         install_shadowsocks_python
         install_completed_python
-        qr_generate_python
     elif [ "${selected}" == "2" ]; then
         install_shadowsocks_r
         install_completed_r
-        qr_generate_r
     elif [ "${selected}" == "3" ]; then
         install_shadowsocks_go
         install_completed_go
-        qr_generate_go
     elif [ "${selected}" == "4" ]; then
         install_mbedtls
         install_shadowsocks_libev
         install_shadowsocks_libev_obfs
         install_completed_libev
-        qr_generate_libev
     fi
 
     echo
