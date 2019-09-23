@@ -580,7 +580,14 @@ install_select(){
     clear
     while true
     do
-    echo  "请选择您要安装的版本:"
+    echo "#"
+    echo "#"
+    echo "#===================================================================#"
+    echo "#       欢迎使用Shadowsocks安装程序（秋水逸冰四合一汉化安装指引)        #"
+    echo "#===================================================================#"
+    echo "#"
+    echo "#"
+    echo "请选择您要安装的版本:"
     for ((i=1;i<=${#software[@]};i++ )); do
         hint="${software[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
