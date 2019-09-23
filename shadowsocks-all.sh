@@ -1004,10 +1004,10 @@ install_completed_python(){
     ${shadowsocks_python_init} start
     echo
     echo  -e "${green}恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!${plain}"
-    echo  -e "${green}Your Server IP        : $(get_ip) "
-    echo  -e "${green}Your Server Port      : ${shadowsocksport} "
-    echo  -e "${green}Your Password         : ${shadowsockspwd} "
-    echo  -e "${green}Your Encryption Method: ${shadowsockscipher}"
+    echo  -e "${green}Your Server IP        : $(get_ip) ${plain}"
+    echo  -e "${green}Your Server Port      : ${shadowsocksport} ${plain}"
+    echo  -e "${green}Your Password         : ${shadowsockspwd} ${plain}"
+    echo  -e "${green}Your Encryption Method: ${shadowsockscipher}${plain}"
     echo  
     
 }
@@ -1021,7 +1021,7 @@ install_completed_r(){
     echo  -e "${green}Your Server Port      :  ${shadowsocksport} ${plain}"
     echo  -e "${green}Your Password         :  ${shadowsockspwd} ${plain}"
     echo  -e "${green}Your Protocol         :  ${shadowsockprotocol} ${plain}"
-    echo  -e "${green}Your obfs             :  ${shadowsockobfs} "
+    echo  -e "${green}Your obfs             :  ${shadowsockobfs} ${plain}"
     echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
     echo
     
