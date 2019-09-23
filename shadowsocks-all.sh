@@ -271,10 +271,10 @@ autoconf_version(){
     if [ ! "$(command -v autoconf)" ]; then
         echo -e "[${green}Info${plain}] 开始编译安装包"
         if check_sys packageManager yum; then
-            yum install -y autoconf > /dev/null 2>&1 || echo -e "[${red}Error:${plain}]  安装包编译失败"
+            yum install -y autoconf > /dev/null 2>&1 || echo -e "[${red}错误:${plain}]  安装包编译失败"
         elif check_sys packageManager apt; then
             apt-get -y update > /dev/null 2>&1
-            apt-get -y install autoconf > /dev/null 2>&1 || echo -e "[${red}Error:${plain}] 安装包编译失败"
+            apt-get -y install autoconf > /dev/null 2>&1 || echo -e "[${red}错误:${plain}] 安装包编译失败"
         fi
     fi
     local autoconf_ver=$(autoconf --version | grep autoconf | grep -oE "[0-9.]+")
@@ -299,7 +299,7 @@ get_ipv6(){
 
 get_libev_ver(){
     libev_ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
-    [ -z ${libev_ver} ] && echo -e "[${red}Error${plain}] 获取shadowsocks-libev最新版本失败" && exit 1
+    [ -z ${libev_ver} ] && echo -e "[${red}错误${plain}] 获取shadowsocks-libev最新版本失败" && exit 1
 }
 
 get_opsy(){
@@ -339,7 +339,7 @@ download(){
         echo "${filename} 未找到，现在下载"
         wget --no-check-certificate -c -t3 -T60 -O ${1} ${2}
         if [ $? -ne 0 ]; then
-            echo -e "[${red}Error${plain}]  ${filename} 下载失败"
+            echo -e "[${red}错误${plain}]  ${filename} 下载失败"
             exit 1
         fi
     fi
@@ -404,7 +404,7 @@ error_detect_depends(){
     echo -e "[${green}Info${plain}] 开始安装 ${depend}"
     ${command} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-        echo -e "[${red}Error${plain}] 安装失败 ${red}${depend}${plain}"
+        echo -e "[${red}错误${plain}] 安装失败 ${red}${depend}${plain}"
         exit 1
     fi
 }
@@ -423,7 +423,7 @@ config_firewall(){
                 echo -e "[${green}Info${plain}] 端口 ${green}${shadowsocksport}${plain} 已经开启."
             fi
         else
-            echo -e "[${yellow}Warning${plain}] iptables并未运行或安装, 请手动开启端口 ${shadowsocksport} "
+            echo -e "[${yellow}警告${plain}] iptables并未运行或安装, 请手动开启端口 ${shadowsocksport} "
         fi
     elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
@@ -1021,35 +1021,35 @@ install_completed_python(){
     clear
     ${shadowsocks_python_init} start
     echo
-    echo "恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  "Your Server IP        : $(get_ip) $"
-    echo  "Your Server Port      : ${shadowsocksport} "
-    echo  "Your Password         : ${shadowsockspwd} "
-    echo  "Your Encryption Method: ${shadowsockscipher}"
+    echo "[${green}Info${plain}]恭喜, ${software[0]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  "[${green}Info${plain}]Your Server IP        : $(get_ip) $"
+    echo  "[${green}Info${plain}]Your Server Port      : ${shadowsocksport} "
+    echo  "[${green}Info${plain}]Your Password         : ${shadowsockspwd} "
+    echo  "[${green}Info${plain}]Your Encryption Method: ${shadowsockscipher}"
 }
 
 install_completed_r(){
     clear
     ${shadowsocks_r_init} start
     echo
-    echo  "恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  "Your Server IP        :  $(get_ip) "
-    echo  "Your Server Port      :  ${shadowsocksport} "
-    echo  "Your Password         :  ${shadowsockspwd} "
-    echo  "Your Protocol         :  ${shadowsockprotocol} "
-    echo  "Your obfs             :  ${shadowsockobfs} "
-    echo  "Your Encryption Method:  ${shadowsockscipher} "
+    echo  "[${green}Info${plain}]恭喜, ${software[1]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
+    echo  "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
+    echo  "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
+    echo  "[${green}Info${plain}]Your Protocol         :  ${shadowsockprotocol} "
+    echo  "[${green}Info${plain}]Your obfs             :  ${shadowsockobfs} "
+    echo  "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
 }
 
 install_completed_go(){
     clear
     ${shadowsocks_go_init} start
     echo
-    echo  "恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!"
-    echo  "Your Server IP        :  $(get_ip) "
-    echo  "Your Server Port      :  ${shadowsocksport} "
-    echo  "Your Password         :  ${shadowsockspwd} "
-    echo  "Your Encryption Method:  ${shadowsockscipher} "
+    echo  "[${green}Info${plain}]恭喜, ${software[2]}已安装完成，请按以下信息设置您的客户端!"
+    echo  "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
+    echo  "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
+    echo  "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
+    echo  "[${green}Info${plain}]Your Encryption Method:  ${shadowsockscipher} "
 }
 
 install_completed_libev(){
@@ -1057,14 +1057,14 @@ install_completed_libev(){
     ldconfig
     ${shadowsocks_libev_init} start
     echo
-    echo  "恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!"
-    echo  "Your Server IP        :  $(get_ip) "
-    echo  "Your Server Port      :  ${shadowsocksport} "
-    echo  "Your Password         :  ${shadowsockspwd} "
+    echo  "[${green}Info${plain}]恭喜, ${software[3]} 已安装完成，请按以下信息设置您的客户端!"
+    echo  "[${green}Info${plain}]Your Server IP        :  $(get_ip) "
+    echo  "[${green}Info${plain}]Your Server Port      :  ${shadowsocksport} "
+    echo  "[${green}Info${plain}]Your Password         :  ${shadowsockspwd} "
     if [ "$(command -v obfs-server)" ]; then
-    echo  " obfs                 :  ${shadowsocklibev_obfs} "
+    echo  " [${green}Info${plain}]obfs                 :  ${shadowsocklibev_obfs} "
     fi
-    echo  "您的加密方式           :  ${shadowsockscipher} "
+    echo  "[${green}Info${plain}]您的加密方式           :  ${shadowsockscipher} "
 }
 
 
