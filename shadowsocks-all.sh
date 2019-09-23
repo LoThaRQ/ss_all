@@ -7,7 +7,7 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-[[ $EUID -ne 0 ]] && echo -e "[${red}警告${plain}] 本脚本必须以root权限运行!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "[${red}警告本脚本必须以root权限运行!${plain}] " && exit 1
 
 cur_dir=$( pwd )
 software=(Shadowsocks-Python ShadowsocksR Shadowsocks-Go Shadowsocks-libev)
@@ -376,7 +376,7 @@ get_char(){
 error_detect_depends(){
     local command=$1
     local depend=`echo "${command}" | awk '{print $4}'`
-    echo -e "[${green}Info${plain}] 开始安装 ${depend}"
+    echo -e "[${green}Info${plain}] 安装 ${depend}"
     ${command} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         echo -e "[${red}错误${plain}] 安装失败 ${red}${depend}${plain}"
@@ -522,7 +522,7 @@ fi
 
 install_dependencies(){
     if check_sys packageManager yum; then
-        echo -e "[${green}Info${plain}] 正在检查EPEL repository..."
+        echo -e "[${green}Info${plain}] 检查EPEL repository..."
         if [ ! -f /etc/yum.repos.d/epel.repo ]; then
             yum install -y epel-release > /dev/null 2>&1
         fi
@@ -1009,6 +1009,7 @@ install_completed_python(){
     echo  -e "${green}Your Password         : ${shadowsockspwd} "
     echo  -e "${green}Your Encryption Method: ${shadowsockscipher}"
     echo  " "
+    done
 }
 
 install_completed_r(){
@@ -1023,6 +1024,7 @@ install_completed_r(){
     echo  -e "${green}Your obfs             :  ${shadowsockobfs} "
     echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
     echo
+    done
 }
 
 install_completed_go(){
@@ -1035,6 +1037,7 @@ install_completed_go(){
     echo  -e "${green}Your Password         :  ${shadowsockspwd} ${plain}"
     echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
     echo
+    done
 }
 
 install_completed_libev(){
@@ -1051,6 +1054,7 @@ install_completed_libev(){
     fi
     echo  -e "${green}您的加密方式           :  ${shadowsockscipher} ${plain}"
     echo
+    done
 }
 
 
