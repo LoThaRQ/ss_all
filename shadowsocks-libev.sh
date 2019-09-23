@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===================================================================#
-#   欢迎使用Shadowsocks-libev安装程序（适用CentOS 6 或 7 )            #
+#   欢迎使用Shadowsocks-libev安装程序（适用CentOS 6 或 7 )          #
 #===================================================================#
 
 # Current folder
@@ -487,10 +487,10 @@ install_shadowsocks(){
     clear
     echo
     echo -e "恭喜, Shadowsocks-libev已安装完成，请按以下信息设置您的客户端"
-    echo -e "Your Server IP        : \033[41;37m $(get_ip)  "
-    echo -e "Your Server Port      : \033[41;37m ${shadowsocksport}  "
-    echo -e "Your Password         : \033[41;37m ${shadowsockspwd}  "
-    echo -e "Your Encryption Method: \033[41;37m ${shadowsockscipher}  "
+    echo -e "Your Server IP        :  $(get_ip)"
+    echo -e "Your Server Port      :  ${shadowsocksport}"
+    echo -e "Your Password         :  ${shadowsockspwd}"
+    echo -e "Your Encryption Method:  ${shadowsockscipher}"
     echo
 }
 
