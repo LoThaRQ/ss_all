@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===================================================================#
-#         欢迎使用Shadowsocks-libev安装程序（适用CentOS6或7)          #
+#             Shadowsocks-libev安装程序（适用CentOS6或7)              #
 #===================================================================#
 
 # Current folder
@@ -113,7 +113,7 @@ check_version(){
 print_info(){
     clear
     echo "#############################################################"
-    echo "#     Shadowsocks-libev安装程序（适用CentOS 6 或 7 )          #"
+    echo "      Shadowsocks-libev安装程序（适用CentOS 6 或 7 )           "
     echo "#############################################################"
     echo
 }
