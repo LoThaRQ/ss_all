@@ -42,7 +42,7 @@ yellow='\033[0;33m'
 plain='\033[0m'
 
 # Make sure only root can run our script
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] 本脚本必须以root权限运行!" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "${red} 本脚本必须以root权限运行!${plain}" && exit 1
 
 # Disable selinux
 disable_selinux(){
