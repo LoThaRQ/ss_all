@@ -1008,6 +1008,7 @@ install_completed_python(){
     echo  -e "${green}Your Server Port      : ${shadowsocksport} "
     echo  -e "${green}Your Password         : ${shadowsockspwd} "
     echo  -e "${green}Your Encryption Method: ${shadowsockscipher}"
+    echo
 }
 
 install_completed_r(){
@@ -1021,6 +1022,7 @@ install_completed_r(){
     echo  -e "${green}Your Protocol         :  ${shadowsockprotocol} ${plain}"
     echo  -e "${green}Your obfs             :  ${shadowsockobfs} "
     echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
+    echo
 }
 
 install_completed_go(){
@@ -1032,6 +1034,7 @@ install_completed_go(){
     echo  -e "${green}Your Server Port      :  ${shadowsocksport} ${plain}"
     echo  -e "${green}Your Password         :  ${shadowsockspwd} ${plain}"
     echo  -e "${green}Your Encryption Method:  ${shadowsockscipher} ${plain}"
+    echo
 }
 
 install_completed_libev(){
@@ -1047,6 +1050,7 @@ install_completed_libev(){
     echo  -e " ${green}obfs                 :  ${shadowsocklibev_obfs} ${plain}"
     fi
     echo  -e "${green}您的加密方式           :  ${shadowsockscipher} ${plain}"
+    echo
 }
 
 
