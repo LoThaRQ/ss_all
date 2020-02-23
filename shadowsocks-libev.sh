@@ -5,9 +5,9 @@ export PATH
 # Current folder
 cur_dir=`pwd`
 
-libsodium_file="libsodium-1.0.18-RELEASE"
+libsodium_file="libsodium-1.0.17"
 # libsodium_file="libsodium-stable"
-libsodium_url="http://distfiles.macports.org/libsodium/libsodium-1.0.18-RELEASE.tar.gz"
+libsodium_url="http://distfiles.macports.org/libsodium/libsodium-1.0.17.tar.gz"
 # libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
 
 mbedtls_file="mbedtls-2.16.5-apache"
