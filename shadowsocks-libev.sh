@@ -10,8 +10,8 @@ libsodium_file="libsodium-1.0.17"
 libsodium_url="http://distfiles.macports.org/libsodium/libsodium-1.0.17.tar.gz"
 # libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
 
-mbedtls_file="mbedtls-2.16.5-apache"
-mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-apache.tgz"
+mbedtls_file="mbedtls-2.16.5"
+mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-gpl.tgz"
           
 
 # Stream Ciphers
