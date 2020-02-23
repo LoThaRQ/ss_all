@@ -8,7 +8,7 @@ cur_dir=`pwd`
 libsodium_file="libsodium-stable"
 libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
 
-mbedtls_file="mbedtls-2.16.3"
+mbedtls_file="mbedtls-2.16.5"
 mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-apache.tgz"
           
 
@@ -81,7 +81,7 @@ get_latest_version(){
     [ -z ${ver} ] && echo "错误: 获取最新版本的shadowsocks-libev失败" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
     download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/${ver}/${shadowsocks_libev_ver}.tar.gz"
-    init_script_link="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev"
+    init_script_link="https://raw.githubusercontent.com/lotharq/ss_all/master/shadowsocks-libev"
 }
 
 check_installed(){
