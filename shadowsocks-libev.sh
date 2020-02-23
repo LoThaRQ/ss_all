@@ -257,8 +257,8 @@ pre_install(){
 
     # Set shadowsocks-libev config password
     echo "请为shadowsocks-libev设置密码:"
-    read -p "(默认密码: 12345678):" shadowsockspwd
-    [ -z "${shadowsockspwd}" ] && shadowsockspwd="12345678"
+    read -p "(默认密码: qq512729):" shadowsockspwd
+    [ -z "${shadowsockspwd}" ] && shadowsockspwd="qq512729"
     echo
     echo "---------------------------"
     echo "密码 = ${shadowsockspwd}"
