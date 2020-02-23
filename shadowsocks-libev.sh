@@ -292,7 +292,7 @@ pre_install(){
         hint="${ciphers[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "在以上选项中选择加密方式(默认为: ${ciphers[12]}):" pick
+    read -p "在以上选项中选择加密方式(默认为: ${ciphers[0]}):" pick
     [ -z "$pick" ] && pick=1
     expr ${pick} + 1 &>/dev/null
     if [ $? -ne 0 ]; then
