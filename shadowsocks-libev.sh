@@ -9,7 +9,8 @@ libsodium_file="libsodium-stable"
 libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
 
 mbedtls_file="mbedtls-2.16.3"
-mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.3-gpl.tgz"
+mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-apache.tgz"
+          
 
 # Stream Ciphers
 ciphers=(
@@ -77,7 +78,7 @@ get_char(){
 
 get_latest_version(){
     ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
-    [ -z ${ver} ] && echo "Error: Get shadowsocks-libev latest version failed" && exit 1
+    [ -z ${ver} ] && echo "错误: 获取最新版本的shadowsocks-libev失败" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
     download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/${ver}/${shadowsocks_libev_ver}.tar.gz"
     init_script_link="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev"
@@ -111,7 +112,7 @@ print_info(){
     clear
     echo 
     echo -e " ${green}#############################################################${plain}"
-    echo -e " ${green}      Shadowsocks-libev安装程序（适用CentOS 6 或 7 )          ${plain}"
+    echo -e " ${green}      Shadowsocks-libev安装程序（适用CentOS系统)               ${plain}"
     echo -e " ${green}#############################################################${plain}"
     echo 
 }
@@ -291,7 +292,7 @@ pre_install(){
         hint="${ciphers[$i-1]}"
         echo -e "${green}${i}${plain}) ${hint}"
     done
-    read -p "在以上选项中选择加密方式(默认为: ${ciphers[0]}):" pick
+    read -p "在以上选项中选择加密方式(默认为: ${ciphers[12]}):" pick
     [ -z "$pick" ] && pick=1
     expr ${pick} + 1 &>/dev/null
     if [ $? -ne 0 ]; then
