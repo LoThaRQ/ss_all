@@ -5,14 +5,14 @@ export PATH
 # Current folder
 cur_dir=`pwd`
 
-# libsodium_file="libsodium-1.0.17"
+# libsodium_file="libsodium-LATEST"
 libsodium_file="libsodium-stable"
 # libsodium_url="http://distfiles.macports.org/libsodium/libsodium-1.0.17.tar.gz"
 libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
 
 mbedtls_file="mbedtls-2.16.5"
-mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-gpl.tgz"
-          
+# mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-gpl.tgz"
+mbedtls_url="https://github.com/ARMmbed/mbedtls/archive/refs/tags/mbedtls-3.0.0.tar.gz"          
 
 # Stream Ciphers
 ciphers=(
