@@ -6,9 +6,9 @@ export PATH
 cur_dir=`pwd`
 
 # libsodium_file="libsodium-LATEST"
-libsodium_file="libsodium-LATEST"
-libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
-               
+libsodium_file="libsodium-1.0.18"
+libsodium_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
+# libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"               
 mbedtls_file="mbedtls-LATEST"
 mbedtls_url="https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v3.1.0.tar.gz"  
 
