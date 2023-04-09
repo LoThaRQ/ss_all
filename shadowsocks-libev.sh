@@ -9,8 +9,8 @@ cur_dir=`pwd`
 libsodium_file="libsodium-1.0.18"
 libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.18-RELEASE/libsodium-1.0.18.tar.gz"
 # libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"               
-mbedtls_file="mbedtls-v3.4.0"
-mbedtls_url="https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v3.4.0.tar.gz"  
+mbedtls_file="mbedtls-v2.28.0"
+mbedtls_url="https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v2.28.0.tar.gz"  
              
 # Stream Ciphers
 ciphers=(
