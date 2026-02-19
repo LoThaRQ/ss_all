@@ -5,10 +5,10 @@ export PATH
 # Current folder
 cur_dir=`pwd`
 
-# libsodium_file="libsodium-LATEST"
-libsodium_file="libsodium-1.0.21"
-libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.21-RELEASE/libsodium-1.0.21.tar.gz"
-# libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"               
+libsodium_file="libsodium-LATEST"
+# libsodium_file="libsodium-1.0.21"
+# libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.21-RELEASE/libsodium-1.0.21.tar.gz"
+libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"       
 mbedtls_file="mbedtls-4.0.0"
 mbedtls_url="https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-4.0.0/mbedtls-4.0.0.tar.bz2"  
              
