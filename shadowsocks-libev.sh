@@ -80,7 +80,7 @@ get_latest_version(){
     ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
     [ -z "${ver}" ] && echo "Error: Get shadowsocks-libev latest version failed" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo "${ver}" | sed -e 's/^[a-zA-Z]//g')"
-    download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/${ver}/${shadowsocks_libev_ver}.tar.gz"
+    download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.6/shadowsocks-libev-3.3.6.tar.gz"
     init_script_link="https://github.com/LoThaRQ/ss_all/blob/master/shadowsocks-libev"
 }
 
