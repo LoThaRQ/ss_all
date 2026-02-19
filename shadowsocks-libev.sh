@@ -6,11 +6,11 @@ export PATH
 cur_dir=`pwd`
 
 # libsodium_file="libsodium-LATEST"
-libsodium_file="libsodium-1.0.18"
-libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.18-RELEASE/libsodium-1.0.18.tar.gz"
+libsodium_file="libsodium-1.0.21"
+libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.21-RELEASE/libsodium-1.0.21.tar.gz"
 # libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"               
-mbedtls_file="mbedtls-v2.28.0"
-mbedtls_url="https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v2.28.0.tar.gz"  
+mbedtls_file="mbedtls-4.0.0"
+mbedtls_url="https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-4.0.0/mbedtls-4.0.0.tar.bz2"  
              
 # Stream Ciphers
 ciphers=(
@@ -80,7 +80,7 @@ get_latest_version(){
     ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
     [ -z ${ver} ] && echo "错误: 获取最新版本的shadowsocks-libev失败" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
-    download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/${ver}/${shadowsocks_libev_ver}.tar.gz"
+    download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.6/shadowsocks-libev-3.3.6.tar.gz"
     init_script_link="https://raw.githubusercontent.com/lotharq/ss_all/master/shadowsocks-libev"
 }
 
