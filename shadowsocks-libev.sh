@@ -77,6 +77,7 @@ get_char(){
 }
 
 get_latest_version(){
+    # ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
     ver=$(wget --no-check-certificate -qO- https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.6/shadowsocks-libev-3.3.6.tar.gz | grep 'tag_name' | cut -d\" -f4)
     [ -z ${ver} ] && echo "错误: 获取最新版本的shadowsocks-libev失败" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
