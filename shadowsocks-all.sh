@@ -12,11 +12,11 @@ plain='\033[0m'
 cur_dir=$( pwd )
 software=(Shadowsocks-Python ShadowsocksR Shadowsocks-Go Shadowsocks-libev)
 
-libsodium_file="libsodium-stable"
-libsodium_url="https://download.libsodium.org/libsodium/releases/LATEST.tar.gz"
-
-mbedtls_file="mbedtls-2.16.5"
-mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.5-gpl.tgz"
+libsodium_file="libsodium-1.0.21"
+libsodium_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.21.tar.gz"
+    
+mbedtls_file="mbedtls-4.0.0"
+mbedtls_url="https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-4.0.0/mbedtls-4.0.0.tar.bz2"  
 
 
 shadowsocks_python_file="shadowsocks-master"
